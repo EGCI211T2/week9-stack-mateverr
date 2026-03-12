@@ -54,31 +54,32 @@ int main(int argc, char **argv)
   for(int i=1;i<argc;i++){
 
     Stack s;
-    bool error=false;
+    bool error=false; // Boolean for error status flags
 
-    for(int j=0;j<strlen(argv[i]);j++){
+    for(int j=0;j<strlen(argv[i]);j++) // using strlen to find the length of string
+    {
 
         if(argv[i][j]=='[' || argv[i][j]=='{')
             s.push(argv[i][j]);
 
         else if(argv[i][j]==']' || argv[i][j]=='}'){
 
-            if(s.isEmpty()){
+            if(s.isEmpty()){ // if stack is empty and the argv is a closing parenthesis return incorrect
                 error=true;
                 break;
             }
 
-            char x=s.pop();
+            char x=s.pop(); // Otherwise pop earlier data to compare 
 
             if((argv[i][j]==']' && x!='[') ||
                (argv[i][j]=='}' && x!='{')){
-                error=true;
-                break;
+                error=true; // incorrect if not a complete bracket
+                break; 
             }
         }
     }
 
-    if(error)
+    if(error) // use error flags to determine the output for each argv
         cout<<"argv "<<i<<" incorrect"<<endl;
     else if(!s.isEmpty())
         cout<<"argv "<<i<<" incorrect: too many open parenthesis"<<endl;
